@@ -1,0 +1,60 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="container my-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="bg-white p-4 shadow rounded" style="width: 400px;">
+        <h2 class="text-center mb-4">Sign Up</h2>
+        
+        {% if msg %}
+            <p class="text-danger text-center">{{ msg }}</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+                <label>Select Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="">=== Select Your Role ===</option>
+                    <option value="Company">Company</option>
+                    <option value="Candidate">Candidate</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label>First Name</label>
+                <input type="text" name="firstname" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Last Name</label>
+                <input type="text" name="lastname" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Confirm Password</label>
+                <input type="password" name="cpassword" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Register</button>
+
+            <div class="text-center mt-3">
+                Already have an account? <a href="{% url 'loginpage' %}">Login here</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

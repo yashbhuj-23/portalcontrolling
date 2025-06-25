@@ -1,0 +1,120 @@
+{% extends "app/company/base1.html" %}
+{% load static %}
+
+{% block content %}
+<main class="mt-4">
+    <div class="container-fluid px-4">
+        <h2 class="mb-4 text-center"><i class="fas fa-building me-2"></i>Post a Job</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow p-4">
+
+                    <!-- Show current company logo if available -->
+                    {% if company.logo_pic %}
+                        <div class="text-center mb-4">
+                            <img src="{{ company.logo_pic.url }}" alt="Company Logo" width="120" class="rounded-circle shadow">
+                        </div>
+                    {% endif %}
+
+                    {% if msg %}
+                        <p class="text-center" style="color: lime;">{{ msg }}</p>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'jobpost' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Job Information -->
+                        <h5 class="mb-3"><i class="fas fa-info-circle me-2"></i>Job Information</h5>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="jobname" name="jobname" required>
+                            <label for="jobname" class="required-field">Job Title</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="jobdescription" name="jobdescription" style="height: 100px" required></textarea>
+                            <label for="jobdescription" class="required-field">Job Description</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="qualification" name="qualification" required>
+                            <label for="qualification" class="required-field">Required Qualifications</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="responsibilities" name="responsibilities" style="height: 100px" required></textarea>
+                            <label for="responsibilities" class="required-field">Key Responsibilities</label>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="location" name="location" required>
+                                    <label for="location" class="required-field">Job Location</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="experience" name="experience" required>
+                                    <label for="experience" class="required-field">Years of Experience</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="salarypackage" name="salarypackage" required>
+                            <label for="salarypackage" class="required-field">Salary Package</label>
+                        </div>
+
+                        <!-- Company Info -->
+                        <h5 class="mb-3 mt-4"><i class="fas fa-building me-2"></i>Company Information</h5>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="companyname" name="companyname" value="{{ company.companyname }}" required>
+                            <label for="companyname" class="required-field">Company Name</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="companyaddress" name="companyaddress" style="height: 100px" required>{{ company.address }}</textarea>
+                            <label for="companyaddress" class="required-field">Company Address</label>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="companyemail" name="companyemail" value="{{ request.session.email }}" required>
+                                    <label for="companyemail" class="required-field">Company Email</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="companycontact" name="companycontact" value="{{ company.contact }}" required>
+                                    <label for="companycontact" class="required-field">Contact Number</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="url" class="form-control" id="companywebsite" name="companywebsite" value="{{ company.companywebsite|default_if_none:'' }}">
+                            <label for="companywebsite">Company Website (optional)</label>
+                        </div>
+
+                        <!-- ✅ Upload New Company Logo -->
+                        <div class="form-floating mb-3">
+                            <input type="file" class="form-control" id="logo_pic" name="logo_pic" accept="image/*">
+                            <label for="logo_pic">Upload Company Logo</label>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-dark btn-lg py-3" type="submit">
+                                <i class="fas fa-paper-plane me-2"></i> Post Job
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Apply for Job{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Apply for Job</h2>
+
+        {% if msg %}
+            <div class="alert alert-success text-center">{{ msg }}</div>
+        {% endif %}
+
+        {% if user and cand and job %}
+        <form method="post" action="{% url 'applyjob' pk=job.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Personal Info -->
+            <h5 class="section-header mt-4">Personal Information</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" name="firstname" value="{{ cand.firstname }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" name="lastname" value="{{ cand.lastname }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ request.session.email|default:'' }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label>Contact</label>
+                    <input type="text" class="form-control" name="contact" value="{{ cand.contact }}" required>
+                </div>
+                <div class="col-12">
+                    <label>Gender</label><br>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="M" class="form-check-input" {% if cand.gender == "M" %}checked{% endif %}>
+                        <label class="form-check-label">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="F" class="form-check-input" {% if cand.gender == "F" %}checked{% endif %}>
+                        <label class="form-check-label">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="O" class="form-check-input" {% if cand.gender == "O" %}checked{% endif %}>
+                        <label class="form-check-label">Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Info -->
+            <h5 class="section-header mt-4">Job Details</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Job Name</label>
+                    <input type="text" class="form-control" name="jobname" value="{{ job.jobname }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label>Job Type</label>
+                    <select name="jobtype" class="form-select" required>
+                        <option value="">-- Select --</option>
+                        <option value="fulltime" {% if cand.job_type == "fulltime" %}selected{% endif %}>Full-time</option>
+                        <option value="parttime" {% if cand.job_type == "parttime" %}selected{% endif %}>Part-time</option>
+                        <option value="contract" {% if cand.job_type == "contract" %}selected{% endif %}>Contract</option>
+                        <option value="freelance" {% if cand.job_type == "freelance" %}selected{% endif %}>Freelance</option>
+                        <option value="internship" {% if cand.job_type == "internship" %}selected{% endif %}>Internship</option>
+                        <option value="other" {% if cand.job_type == "other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <h5 class="section-header mt-4">Location</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>City</label>
+                    <input type="text" class="form-control" name="city" value="{{ cand.city }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label>State</label>
+                    <input type="text" class="form-control" name="state" value="{{ cand.state }}" required>
+                </div>
+                <div class="col-md-12">
+                    <label>Country</label>
+                    <select name="country" class="form-select" required>
+                        <option value="">-- Select --</option>
+                        <option value="usa" {% if cand.country == "usa" %}selected{% endif %}>USA</option>
+                        <option value="uk" {% if cand.country == "uk" %}selected{% endif %}>UK</option>
+                        <option value="canada" {% if cand.country == "canada" %}selected{% endif %}>Canada</option>
+                        <option value="australia" {% if cand.country == "australia" %}selected{% endif %}>Australia</option>
+                        <option value="india" {% if cand.country == "india" %}selected{% endif %}>India</option>
+                        <option value="germany" {% if cand.country == "germany" %}selected{% endif %}>Germany</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Salary -->
+            <h5 class="section-header mt-4">Salary Expectations</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Minimum Salary</label>
+                    <input type="number" class="form-control" name="min_salary" value="{{ cand.min_salary }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label>Maximum Salary</label>
+                    <input type="number" class="form-control" name="max_salary" value="{{ cand.max_salary }}" required>
+                </div>
+            </div>
+
+            <!-- Qualification -->
+            <h5 class="section-header mt-4">Qualifications</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Education</label>
+                    <select name="education" class="form-select" required>
+                        <option value="">-- Select --</option>
+                        <option value="highschool" {% if cand.education == "highschool" %}selected{% endif %}>High School</option>
+                        <option value="diploma" {% if cand.education == "diploma" %}selected{% endif %}>Diploma</option>
+                        <option value="bachelor" {% if cand.education == "bachelor" %}selected{% endif %}>Bachelor's</option>
+                        <option value="master" {% if cand.education == "master" %}selected{% endif %}>Master's</option>
+                        <option value="phd" {% if cand.education == "phd" %}selected{% endif %}>PhD</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>Experience</label>
+                    <select name="experience" class="form-select" required>
+                        <option value="">-- Select --</option>
+                        <option value="0" {% if cand.experience == "0" %}selected{% endif %}>No experience</option>
+                        <option value="1" {% if cand.experience == "1" %}selected{% endif %}>1 year</option>
+                        <option value="2" {% if cand.experience == "2" %}selected{% endif %}>2 years</option>
+                        <option value="3-5" {% if cand.experience == "3-5" %}selected{% endif %}>3-5 years</option>
+                        <option value="5-10" {% if cand.experience == "5-10" %}selected{% endif %}>5-10 years</option>
+                        <option value="10+" {% if cand.experience == "10+" %}selected{% endif %}>10+ years</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Resume Upload -->
+            <h5 class="section-header mt-4">Resume</h5>
+            {% if cand.resume %}
+            <p>Current Resume: <a href="{{ cand.resume.url }}" target="_blank">View Resume</a></p>
+            {% endif %}
+            <input type="file" name="resume" class="form-control mb-3" accept=".pdf,.doc,.docx">
+
+            <!-- Submit -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">Submit Application</button>
+            </div>
+        </form>
+        {% else %}
+            <div class="alert alert-danger text-center">Required data is missing to display the form.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}OTP Verification{% endblock %}
+
+{% block content %}
+<div class="container my-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="bg-white p-4 shadow rounded" style="width: 400px;">
+        <h2 class="text-center mb-4">OTP Verification</h2>
+
+        {% if msg %}
+            <div class="alert alert-danger text-center">{{ msg }}</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'otp' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" name="email" value="{{ email }}" readonly required>
+            </div>
+
+            <div class="mb-4">
+                <label for="otp" class="form-label">Enter OTP</label>
+                <input type="text" class="form-control" name="otp" placeholder="Enter OTP" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Verify OTP</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

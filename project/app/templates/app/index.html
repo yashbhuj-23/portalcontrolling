@@ -1,0 +1,63 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Home - Job Portal{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5" style="min-height: 400px; display: flex; align-items: center;">
+    <div class="container text-center">
+        <h1 class="display-3 text-white mb-3">Find Your Dream Job</h1>
+        <p class="text-white lead">Search and apply for jobs posted by top companies.</p>
+        <a href="{% url 'joblist' %}" class="btn btn-light px-4 py-2">Browse Jobs</a>
+    </div>
+</div>
+
+<!-- Job Listing Section -->
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="mb-3">Job Listing</h2>
+        <ul class="nav nav-pills justify-content-center mb-4">
+            <li class="nav-item"><a class="nav-link active" href="#">Featured</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Full Time</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Part Time</a></li>
+        </ul>
+    </div>
+
+    {% if all_jobs %}
+        {% for job in all_jobs %}
+            <div class="card mb-4 p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-1 text-center">
+                        {% if job.company.logo_pic %}
+                            <img src="{{ job.company.logo_pic.url }}" alt="{{ job.company.companyname }}"
+                                 class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                        {% else %}
+                            <img src="{% static 'img/default-company.png' %}" alt="No Logo"
+                                 class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                        {% endif %}
+                        <small class="text-muted d-block mt-1">{{ job.company.companyname }}</small>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="mb-1">{{ job.jobname }}</h5>
+                        <div class="small text-muted">
+                            <i class="fa fa-map-marker-alt me-2"></i>{{ job.location }}
+                            <span class="ms-3"><i class="far fa-clock me-2"></i>{{ job.experience }} yrs</span>
+                            <span class="ms-3"><i class="far fa-money-bill-alt me-2"></i>{{ job.salarypackage }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <a href="{% url 'apply' job.id %}" class="btn btn-success">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="text-center mt-4">
+            <a href="{% url 'joblist' %}" class="btn btn-outline-primary">Browse More Jobs</a>
+        </div>
+    {% else %}
+        <p class="text-center">No job postings available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

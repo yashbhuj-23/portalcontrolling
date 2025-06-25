@@ -1,0 +1,66 @@
+{% extends "app/admin/base2.html" %}
+{% block content %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">User List</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">User List</li>
+        </ol>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if all_user %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <table id="datatablesSimple" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for user in all_user %}
+                        <tr>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>{{ user.updated_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <form method="post" action="{% url 'deletecandidate' pk=user.id %}" onsubmit="return confirm('Delete this user?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No users found.</div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

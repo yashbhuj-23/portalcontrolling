@@ -1,0 +1,12 @@
+{% extends 'app/base.html' %}
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2 class="text-success">✅ Payment Successful!</h2>
+    <p class="mt-3">Thank you! Your resume request has been received.</p>
+    <p>We’ve also sent a confirmation email to your registered address.</p>
+
+    <a href="{% url 'index' %}" class="btn btn-primary mt-4">Go to Homepage</a>
+</div>
+{% endblock %}

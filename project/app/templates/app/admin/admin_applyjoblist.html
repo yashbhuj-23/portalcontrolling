@@ -1,0 +1,57 @@
+{% extends "app/admin/base2.html" %}
+{% block content %}
+
+<main id="layoutSidenav_content" class="ms-lg-0 px-4 py-4">
+    <div class="container-fluid">
+        <h1 class="mt-4">Application List</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Job Applications</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                All Applications
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="datatablesSimple" class="table table-bordered table-striped text-center align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Candidate Name</th>
+                                <th>Experience</th>
+                                <th>Location</th>
+                                <th>Min Salary</th>
+                                <th>Max Salary</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if applications %}
+                                {% for i in applications %}
+                                    <tr>
+                                        <td>{{ i.job.jobname }}</td>
+                                        <td>{{ i.candidate.firstname }} {{ i.candidate.lastname }}</td>
+                                        <td>{{ i.experience }}</td>
+                                        <td>{{ i.candidate.city }}</td>
+                                        <td>{{ i.min_salary }}</td>
+                                        <td>{{ i.max_salary }}</td>
+                                        <td>{{ i.candidate.contact }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-danger text-center">No job applications found.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

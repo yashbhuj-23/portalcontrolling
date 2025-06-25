@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}
+{% block title %}Resume Payment{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>Resume Payment</h2>
+    <p>Click the button below to pay ₹{{ amount_display }} using Razorpay.</p>
+
+    <form action="{% url 'confirm_resume_payment' %}" method="POST">
+        {% csrf_token %}
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ key_id }}"
+            data-amount="{{ payment.amount }}"
+            data-currency="INR"
+            data-order_id="{{ payment.id }}"
+            data-buttontext="Pay ₹{{ amount_display }}"
+            data-name="Job Portal"
+            data-description="Resume Creation Service"
+            data-theme.color="#0d6efd">
+        </script>
+    </form>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "app/company/base1.html" %}
+{% block content %}
+<main class="mt-4">
+    <div class="container-fluid px-4">
+        <h2 class="mb-4 text-center"><i class="fas fa-users me-2"></i>Applications Received</h2>
+
+        <div class="card shadow p-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="datatablesSimple">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Candidate</th>
+                            <th>Experience</th>
+                            <th>City</th>
+                            <th>Min Salary</th>
+                            <th>Max Salary</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if applications %}
+                            {% for i in applications %}
+                                <tr>
+                                    <td>{{ i.job.jobname }}</td>
+                                    <td>{{ i.candidate.firstname }} {{ i.candidate.lastname }}</td>
+                                    <td>{{ i.experience }}</td>
+                                    <td>{{ i.candidate.city }}</td>
+                                    <td>{{ i.min_salary }}</td>
+                                    <td>{{ i.max_salary }}</td>
+                                    <td>{{ i.candidate.contact }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No applications found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

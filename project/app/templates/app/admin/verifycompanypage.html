@@ -1,0 +1,75 @@
+{% extends "app/admin/base2.html" %}
+{% block content %}
+<main id="layoutSidenav_content">
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Verify Company</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'admincompanylist' %}">Company List</a></li>
+            <li class="breadcrumb-item active">Verify Company</li>
+        </ol>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-check-circle me-1"></i>
+                Company Verification Details
+            </div>
+            <div class="card-body">
+                <h5>Company Email: <strong>{{ company.email }}</strong></h5>
+                <p>Role: <strong>{{ company.role }}</strong></p>
+                <p>Verified: 
+                    {% if company.is_verified %}
+                        <span class="badge bg-success">Yes</span>
+                    {% else %}
+                        <span class="badge bg-danger">No</span>
+                    {% endif %}
+                </p>
+                <p>Created At: {{ company.created_at|date:"Y-m-d H:i" }}</p>
+
+                <form method="post" id="verifyForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="verify_status" class="form-label">Change Verification Status:</label>
+                        <select name="verify_status" id="verify_status" class="form-select" required>
+                            <option value="True" {% if company.is_verified %}selected{% endif %}>True</option>
+                            <option value="False" {% if not company.is_verified %}selected{% endif %}>False</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        <i class="fas fa-save me-1"></i> Update Verification
+                    </button>
+                    <a href="{% url 'admincompanylist' %}" class="btn btn-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirm Verification Change</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to update the verification status of this company?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+                    <button type="submit" class="btn btn-primary" form="verifyForm">Yes, Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0"><i class="fas fa-user-circle me-2"></i>Update Candidate Profile</h3>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'updateprofile' pk=user.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Basic Info -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="firstname" class="form-label">First Name</label>
+                        <input type="text" name="firstname" id="firstname" class="form-control" value="{{ can.firstname }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <input type="text" name="lastname" id="lastname" class="form-control" value="{{ can.lastname }}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contact" class="form-label">Contact</label>
+                        <input type="text" name="contact" id="contact" class="form-control" value="{{ can.contact }}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <input type="text" name="gender" id="gender" class="form-control" value="{{ can.gender }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" name="state" id="state" class="form-control" value="{{ can.state }}">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" name="address" id="address" class="form-control" value="{{ can.address }}">
+                </div>
+
+                <!-- Job Preferences -->
+                <h5 class="mt-4">Job Preferences</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="jobtype" class="form-label">Job Type</label>
+                        <input type="text" name="jobtype" id="jobtype" class="form-control" value="{{ can.job_type }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="jobcategory" class="form-label">Job Category</label>
+                        <input type="text" name="jobcategory" id="jobcategory" class="form-control" value="{{ can.jobcategory }}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="education" class="form-label">Education</label>
+                        <input type="text" name="education" id="education" class="form-control" value="{{ can.education }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="experience" class="form-label">Experience</label>
+                        <input type="text" name="experience" id="experience" class="form-control" value="{{ can.experience }}">
+                    </div>
+                </div>
+
+                <!-- Location and Salary -->
+                <h5 class="mt-4">Location & Salary</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" name="city" id="city" class="form-control" value="{{ can.city }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="country" id="country" class="form-control" value="{{ can.country }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="minsalary" class="form-label">Min Salary</label>
+                        <input type="text" name="minsalary" id="minsalary" class="form-control" value="{{ can.min_salary }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="maxsalary" class="form-label">Max Salary</label>
+                        <input type="text" name="maxsalary" id="maxsalary" class="form-control" value="{{ can.max_salary }}">
+                    </div>
+                </div>
+
+                <!-- Resume Upload -->
+                <h5 class="mt-4">Resume</h5>
+                <div class="mb-3">
+                    {% if can.resume %}
+                        <p>Current Resume: <a href="{{ can.resume.url }}" target="_blank">Download</a></p>
+                    {% endif %}
+                    <input type="file" name="resume" class="form-control">
+                </div>
+
+                <!-- Submit -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-5">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

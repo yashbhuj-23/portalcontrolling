@@ -1,0 +1,59 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Job Detail{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="container-xxl py-5 bg-dark page-header mb-5">
+    <div class="container my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-uppercase">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Job Detail</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Job Detail Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row gy-5 gx-4">
+            <div class="col-lg-8">
+                <!-- Job Header with Company Logo -->
+                <div class="d-flex align-items-center mb-5">
+                   {% for job in jobs %}
+    <div class="d-flex align-items-center border-bottom py-3">
+        <!-- Company Logo -->
+        {% if job.company.logo_pic %}
+            <img class="flex-shrink-0 rounded-circle me-3"
+                 src="{{ job.company.logo_pic.url }}"
+                 alt="Logo"
+                 style="width: 50px; height: 50px;">
+        {% else %}
+            <img class="flex-shrink-0 rounded-circle me-3"
+                 src="{% static 'img/default-company.png' %}"
+                 alt="Default Logo"
+                 style="width: 50px; height: 50px;">
+        {% endif %}
+
+        <div class="text-start w-100">
+            <!-- Company Name -->
+            <h6 class="mb-1 text-primary">{{ job.company.companyname }}</h6>
+
+            <!-- Job Title -->
+            <h5 class="mb-0">{{ job.title }}</h5>
+
+            <!-- Location and other details -->
+            <small>
+                <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.city }}, {{ job.country }}
+                | <i class="far fa-clock text-primary me-2"></i>{{ job.experience }} yrs
+                | ₹{{ job.min_salary }} - ₹{{ job.max_salary }}
+            </small>
+        </div>
+
+        <!-- Apply Now Button -->
+        <a href="{% url 'jobdetail' job.id %}" class="btn btn-primary ms-auto">Apply Now</a>
+    </div>
+{% endfor %}

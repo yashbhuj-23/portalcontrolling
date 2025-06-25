@@ -1,0 +1,72 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Jobs Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+            <ul class="nav nav-pills d-inline-flex justify-content-center mb-5">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#tab-1">Featured</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#">Full Time</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#">Part Time</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    {% if all_jobs %}
+                        {% for job in all_jobs %}
+                            <div class="card mb-4 p-3">
+                                <div class="row align-items-center">
+                                    <!-- Logo + Company Info -->
+                                    <div class="col-md-2 text-center">
+                                        {% if job.company.logo_pic %}
+                                            <img src="{{ job.company.logo_pic.url }}" alt="{{ job.company.companyname }}"
+                                                class="img-fluid rounded-circle mb-2" style="width: 60px; height: 60px;">
+                                        {% else %}
+                                            <img src="{% static 'img/default-company.png' %}" alt="No Logo"
+                                                class="img-fluid rounded-circle mb-2" style="width: 60px; height: 60px;">
+                                        {% endif %}
+                                        <small class="d-block text-muted">{{ job.company.companyname }}</small>
+                                    </div>
+
+                                    <!-- Job Info -->
+                                    <div class="col-md-7">
+                                        <h5 class="mb-1">{{ job.jobname }}</h5>
+                                        <div class="small text-muted">
+                                            <i class="fa fa-map-marker-alt me-2"></i>{{ job.location }}
+                                            <span class="ms-3"><i class="far fa-clock me-2"></i>{{ job.experience }} yrs</span>
+                                            <span class="ms-3"><i class="far fa-money-bill-alt me-2"></i>{{ job.salarypackage }}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Button -->
+                                    <div class="col-md-3 text-md-end text-start mt-3 mt-md-0">
+                                        <a href="{% url 'apply' job.id %}" class="btn btn-success mb-2">Apply Now</a>
+                                        <div class="small text-muted">
+                                            <i class="far fa-calendar-alt me-2"></i>Posted: {{ job.created_at|date:"d M, Y" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="text-center mt-4">
+                            <a class="btn btn-outline-primary" href="#">Browse More Jobs</a>
+                        </div>
+                    {% else %}
+                        <p class="text-center">No jobs available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Jobs End -->
+
+{% endblock %}

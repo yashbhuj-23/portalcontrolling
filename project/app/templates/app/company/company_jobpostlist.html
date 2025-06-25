@@ -1,0 +1,48 @@
+{% extends "app/company/base1.html" %}
+{% block content %}
+<main class="mt-4">
+    <div class="container-fluid px-4">
+        <h2 class="mb-4 text-center"><i class="fas fa-briefcase me-2"></i>My Job Posts</h2>
+
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'companyindex' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">My Job Posts</li>
+        </ol>
+
+        <div class="card shadow p-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="datatablesSimple">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Job Name</th>
+                            <th>Company Name</th>
+                            <th>Location</th>
+                            <th>Company Website</th>
+                            <th>Experience</th>
+                            <th>Salary Package</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if all_jobs %}
+                            {% for i in all_jobs %}
+                                <tr>
+                                    <td>{{ i.jobname }}</td>
+                                    <td>{{ i.companyname }}</td>
+                                    <td>{{ i.location }}</td>
+                                    <td>{{ i.companywebsite }}</td>
+                                    <td>{{ i.experience }}</td>
+                                    <td>{{ i.salarypackage }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No job posts available.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
